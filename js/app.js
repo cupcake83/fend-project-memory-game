@@ -1,7 +1,11 @@
+ */
 const deck = document.getElementById("card-deck");
 let card = document.getElementsByClassName("card");
 let cards = [...card];
 let cardsOpen = [];
+const finalStars = document.querySelector('.final-stars');
+const finalMoves = document.querySelector('.final-moves');
+const finalTime = document.querySelector('.final-time');
 
 
 //
@@ -20,35 +24,20 @@ function moveCounter () {
         hour = 0;
         beginTimer();
     }
-    if (moves > 7 && moves < 13){
+    if (moves > 16 && moves < 25){
         for( i= 0; i < 3; i++){
             if(i > 1){
                 stars[i].style.visibility = "collapse";
                 }
             }
         }
-    else if (moves > 13){
+    else if (moves > 26){
         for( i= 0; i < 3; i++){
             if(i > 0){
                 stars[i].style.visibility = "collapse";
             }
     }
 }
-}
-
-// Shuffle function from http://stackoverflow.com/a/2450976
-function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
-
-    while (currentIndex !== 0) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
-    }
-
-    return array;
 }
 
 
@@ -66,9 +55,9 @@ function congratulations(){
 
       let starRating = document.querySelector(".stars").innerHTML;
         //showing move, rating, time on modal
-      document.getElementById("counter").innerHTML = moves;
-      document.getElementById("starRating").innerHTML = starRating;
-      document.getElementById("timer").innerHTML = finalTime;
+      document.getElementsByClassName("counter").innerHTML = moves;
+      document.getElementsByClassName("finalStars").innerHTML = starRating;
+      document.getElementsByClassName("finalTime").innerHTML = timer;
 
         //closeicon on modal
       closeModal();
@@ -80,7 +69,6 @@ function closeModal(){
     startGame();
   });
 }
-
 
  function playAgain(){
   modal.classList.remove("show");
@@ -111,9 +99,29 @@ function beginTimer() {
 }
 
 
+/*
+ * Display the cards on the page
+ *   - shuffle the list of cards using the provided "shuffle" method below
+ *   - loop through each card and create its HTML
+ *   - add each card's HTML to the page
+ */
+
+// Shuffle function from http://stackoverflow.com/a/2450976
+function shuffle(array) {
+    let currentIndex = array.length, temporaryValue, randomIndex;
+
+    while (currentIndex !== 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+    }
+
+    return array;
+}
 // START GAME
 document.body.onload = startGame();
-
 
 function startGame(){
   cards = shuffle(cards);
@@ -146,7 +154,6 @@ function startGame(){
 // MATCHED/UNMATCHED
 let cardMatch = document.getElementsByClassName("match");
 
-
 function matched(){
   cardsOpen[0].classList.add("match");
   cardsOpen[1].classList.add("match");
@@ -154,7 +161,6 @@ function matched(){
   cardsOpen[1].classList.remove("open", "show");
   cardsOpen = [];
 }
-
 
 function unmatched(){
   cardsOpen[0].classList.add("unmatched");
@@ -165,7 +171,6 @@ function unmatched(){
       cardsOpen = [];
   },700);
 }
-
 
 // OPEN SHOW DISABLED
 function openCard() {
@@ -182,7 +187,6 @@ function openCard() {
   }
 };
 
-
 function enable(){
 Array.prototype.filter.call(cards, function(card){
    card.classList.remove('disabled');
@@ -197,6 +201,7 @@ Array.prototype.filter.call(cards, function(card){
     card.classList.add('disabled');
     });
 }
+
 
 
 // LISTENERS
